@@ -8,8 +8,6 @@ load_dotenv()
 
 apikey = os.environ['apikey']
 url = os.environ['url']
-print (apikey)
-print (url)
 authenticator = IAMAuthenticator(apikey)
 language_translator = LanguageTranslatorV3(
     version='2018-05-01',
@@ -20,14 +18,22 @@ language_translator.set_service_url('https://api.au-syd.language-translator.wats
 
 def englishToFrench(englishText):
     #write the code here
+    #function to translate the input english string to french
+    translation = language_translator.translate(
+    text=englishText,
+    model_id='en-fr').get_result()
+    frenchText=translation['translations'][0]['translation']
     return frenchText
 
 
 def frenchToEnglish(frenchText):
     #write the code here
+    #function to translate the input french string to english
+    translation = language_translator.translate(
+    text=frenchText,
+    model_id='fr-en').get_result()
+    englishText = translation['translations'][0]['translation']
     return englishText
 
-translation = language_translator.translate(
-    text='Hello, how are you today?',
-    model_id='en-fr').get_result()
-print(json.dumps(translation, indent=2, ensure_ascii=False))
+
+
